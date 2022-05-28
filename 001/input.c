@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-void validationFailed(void);
+void validation_failed(void);
 void write_ln(char*);
 int count(uint64_t);
 
@@ -15,7 +15,7 @@ char* pwd;
 
 void check(int signal) {
 	if(tmp == tmp2) {
-		validationFailed();
+		validation_failed();
 	}
 	if(count(tmp) == count(tmp2)) {
 		write_ln("You found the password:\n\t");
@@ -23,7 +23,7 @@ void check(int signal) {
 		write_ln("\n");
 		exit(0);
 	}
-	validationFailed();
+	validation_failed();
 }
 void write_ln(char* s) {
 	write(1, s, strlen(s));

@@ -1,10 +1,10 @@
 .global validate
-.global validationFailed
+.global validation_failed
 
 validate:
 	cmp $64, %esi
 	mov %rdi, pwd
-	jne validationFailed
+	jne validation_failed
 	movupd (%rdi), %xmm0
 	movupd 16(%rdi), %xmm1
 	movupd 32(%rdi), %xmm2
@@ -45,7 +45,7 @@ validate:
 	pextrb $15, %xmm0, %r8d
 	xor %r8d, %eax
 	cmp $0, %eax
-	jne validationFailed
+	jne validation_failed
 	# "03RE$%"V1T-<s3GL" as second part, without the outer quotes
 	mov $17, %rax
 	add %rax, %rax # 34
@@ -66,7 +66,7 @@ validate:
 	cmp $16, %ecx
 	jne .loop
 	cmp $0, %rax
-	jne validationFailed
+	jne validation_failed
 	movq %xmm3, %rax
 	pextrq $1, %xmm2, %rbx
 	xor %rbx, %rax
@@ -77,7 +77,7 @@ validate:
 	mov %r8, (tmp2)
 	div %rbx, %rax
 	// Flag is aB13wvno=(102-{?03RE$%"V1T-<s3GL12345678AAAAAAAAAAAAAAAA87654321
-validationFailed:
+validation_failed:
 	mov $1, %rax
 	mov $1, %rdi
 	mov $msg, %rsi
