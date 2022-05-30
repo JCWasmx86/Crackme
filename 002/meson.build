@@ -1,0 +1,5 @@
+nasm_output = custom_target('shell', command: ['nasm', '@INPUT0@', '-o', '@OUTPUT@'], input: 'shell.asm', output: 'shell')
+encryption_tool = executable('encryption_tool', 'encrypt.c', 'helper.s')
+encrypted_binary = custom_target('shell.encrypt', command: [encryption_tool, '@INPUT@', '@OUTPUT@'], input: nasm_output, output: 'shell.encrypted', depends: nasm_output)
+as_header = custom_target('as_header', command: [meson.current_source_dir() / 'generate_header', '@INPUT@', '@OUTPUT@'], input: encrypted_binary, output: 'data.h', depends: encrypted_binary)
+cm002 = executable('cm002', ['main.c', 'helper.s', as_header], include_directories: [include_directories('.')])
